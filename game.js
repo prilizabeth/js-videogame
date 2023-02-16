@@ -96,6 +96,7 @@ function moveByKeys(event) {
 
 function moveUp() {
     console.log('Me muevo arriba');
+
     if ((playerPosition.y - elementsSize) < elementsSize) {
         console.log('out');
     } else {
