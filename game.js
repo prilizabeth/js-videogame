@@ -12,6 +12,10 @@ const playerPosition = {
     x: undefined,
     y: undefined,
 };
+const goalPosition = {
+    x: undefined,
+    y: undefined,
+};
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -56,6 +60,9 @@ function startGame() {
                     playerPosition.y = positionY;
                     console.log({playerPosition});
                 }
+            } else if (col == 'I') {
+                goalPosition.x = positionX;
+                goalPosition.y = positionY;
             }
 
             game.fillText(emoji, positionX, positionY);
@@ -73,6 +80,14 @@ function startGame() {
 }
 
 function movePlayer() {
+    const goalCollisionX = goalPosition.x.toFixed(3) == playerPosition.x.toFixed(3);
+    const goalCollisionY = goalPosition.y.toFixed(3) == playerPosition.y.toFixed(3);
+    const goalCollision = goalCollisionX && goalCollisionY;
+
+    if (goalCollision) {
+        console.log('llegaste')
+    }
+
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 }
 
