@@ -7,6 +7,8 @@ const btnRight = document.querySelector('#right');
 
 let canvasSize;
 let elementsSize;
+let level = 0;
+let lives = 3;
 
 const playerPosition = {
     x: undefined,
@@ -16,6 +18,7 @@ const goalPosition = {
     x: undefined,
     y: undefined,
 };
+let enemiesPosition = [];
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -41,11 +44,18 @@ function startGame() {
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
 
-    const map = maps[0];
+    const map = maps[level];
+
+    if (!map) {
+        gameWin();
+        return;
+    }
+
     const mapRows = map.trim().split('\n');
     const mapRowsCol = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowsCol});
 
+    enemiesPosition = [];
     game.clearRect(0,0,canvasSize,canvasSize);
 
     mapRowsCol.forEach((row, rowIndex) => {
@@ -63,6 +73,11 @@ function startGame() {
             } else if (col == 'I') {
                 goalPosition.x = positionX;
                 goalPosition.y = positionY;
+            } else if (col == 'X') {
+                enemiesPosition.push({
+                    x: positionX,
+                    y: positionY,
+                });
             }
 
             game.fillText(emoji, positionX, positionY);
@@ -85,10 +100,43 @@ function movePlayer() {
     const goalCollision = goalCollisionX && goalCollisionY;
 
     if (goalCollision) {
-        console.log('llegaste')
+        levelWin();
+    }
+
+    const enemyCollision = enemiesPosition.find(enemy => {
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
+        return enemyCollisionX && enemyCollisionY;
+    })
+
+    if (enemyCollision) {
+        levelFail();
     }
 
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function levelWin() {
+    console.log('ganaste');
+    level++;
+    startGame();
+}
+
+function levelFail() {
+    console.log('Chocaste');
+    lives--;
+    if (lives <= 0) {
+        level= 0;
+        lives= 3;
+        console.log('empezas de nuevo');
+    }
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    startGame();
+}
+
+function gameWin() {
+    console.log('se termino');
 }
 
 window.addEventListener('keydown', moveByKeys);
