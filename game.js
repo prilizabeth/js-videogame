@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up');
 const btnDown = document.querySelector('#down');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
+const spanLives = document.querySelector('#lives');
 
 let canvasSize;
 let elementsSize;
@@ -54,6 +55,8 @@ function startGame() {
     const mapRows = map.trim().split('\n');
     const mapRowsCol = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowsCol});
+
+    showLives();
 
     enemiesPosition = [];
     game.clearRect(0,0,canvasSize,canvasSize);
@@ -125,10 +128,10 @@ function levelWin() {
 function levelFail() {
     console.log('Chocaste');
     lives--;
+
     if (lives <= 0) {
         level= 0;
         lives= 3;
-        console.log('empezas de nuevo');
     }
     playerPosition.x = undefined;
     playerPosition.y = undefined;
@@ -137,6 +140,10 @@ function levelFail() {
 
 function gameWin() {
     console.log('se termino');
+}
+
+function showLives() {
+    spanLives.innerHTML = emojis['HEART'].repeat(lives);
 }
 
 window.addEventListener('keydown', moveByKeys);
