@@ -5,9 +5,15 @@ const btnDown = document.querySelector('#down');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
 
 let canvasSize;
 let elementsSize;
+let timeStart;
+let timePlayer;
+let timeInterval;
 let level = 0;
 let lives = 3;
 
@@ -52,6 +58,12 @@ function startGame() {
         return;
     }
 
+    if (!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100);
+        showRecord();
+    }
+
     const mapRows = map.trim().split('\n');
     const mapRowsCol = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowsCol});
@@ -88,13 +100,6 @@ function startGame() {
     });
 
     movePlayer();
-
-    // Lo mismo que el forEach pero con ciclo for
-    //for (let row = 1; row <= 10; row++) {
-       // for (let col = 1; col <= 10; col++) {
-        //    game.fillText(emojis[mapRowsCol[row -1][col - 1]], elementsSize * col, elementsSize * row);
-      //  }
-    //}
 }
 
 function movePlayer() {
@@ -130,8 +135,9 @@ function levelFail() {
     lives--;
 
     if (lives <= 0) {
-        level= 0;
-        lives= 3;
+        level = 0;
+        lives = 3;
+        timeStart = undefined;
     }
     playerPosition.x = undefined;
     playerPosition.y = undefined;
@@ -140,10 +146,35 @@ function levelFail() {
 
 function gameWin() {
     console.log('se termino');
+    clearInterval(timeInterval);
+
+    const recordTime = localStorage.getItem('record_time');
+    const playerTime = Date.now() - timeStart;
+
+    if (recordTime) {
+        if (recordTime >= playerTime) {
+            localStorage.setItem('record_time', playerTime);
+            pResult.innerHTML = 'Superaste el record!';
+        } else {
+            pResult.innerHTML = 'No superaste el record buu';
+        }
+    } else {
+        localStorage.setItem('record_time', playerTime);
+        pResult.innerHTML = 'Primera vez? Intenta superarlo';
+    }
+    console.log({recordTime, playerTime});
 }
 
 function showLives() {
     spanLives.innerHTML = emojis['HEART'].repeat(lives);
+}
+
+function showTime() {
+    spanTime.innerHTML = Date.now() - timeStart;
+}
+
+function showRecord() {
+    spanRecord.innerHTML = localStorage.getItem('record_time');
 }
 
 window.addEventListener('keydown', moveByKeys);
