@@ -9,6 +9,7 @@ const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
 const pResult = document.querySelector('#result');
 const btnReset = document.querySelector('#reset_btn');
+const btnRemove = document.querySelector('#remove_record');
 
 let canvasSize;
 let elementsSize;
@@ -160,16 +161,18 @@ function gameWin() {
     const recordTime = localStorage.getItem('record_time');
     const playerTime = Date.now() - timeStart;
 
+    game.clearRect(0,0,canvasSize,canvasSize);
+
     if (recordTime) {
         if (recordTime >= playerTime) {
             localStorage.setItem('record_time', playerTime);
-            pResult.innerHTML = 'Superaste el record!';
+            pResult.innerHTML = '¡Superaste el record!';
         } else {
             pResult.innerHTML = 'No superaste el record buu';
         }
     } else {
         localStorage.setItem('record_time', playerTime);
-        pResult.innerHTML = 'Primera vez? Intenta superarlo';
+        pResult.innerHTML = '¿Primera vez? Intenta superarlo';
     }
     console.log({recordTime, playerTime});
 }
@@ -192,6 +195,7 @@ btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
 btnReset.addEventListener('click', resetGame);
+btnRemove.addEventListener('click', removeRecord);
 
 function moveByKeys(event) {
     if (event.key == 'ArrowUp') {
@@ -248,4 +252,8 @@ function moveRight() {
 
 function resetGame() {
     location.reload();
+}
+
+function removeRecord() {
+    localStorage.removeItem('record_time');
 }

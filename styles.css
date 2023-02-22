@@ -35,12 +35,16 @@ button {
     padding: 5px 20px;
     width: 100px;
     font-weight: bolder;
+    cursor: pointer;
 }
 button:not(:last-child) {
     margin-right: 10px;
 }
 #reset_btn {
     background-color: #4646fc;
+}
+#remove_record {
+    background-color: rgb(253, 209, 15);
 }
 .messages {
     display: flex;
