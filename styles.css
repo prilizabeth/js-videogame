@@ -34,9 +34,13 @@ button {
     margin: 0;
     padding: 5px 20px;
     width: 100px;
+    font-weight: bolder;
 }
 button:not(:last-child) {
     margin-right: 10px;
+}
+#reset_btn {
+    background-color: #4646fc;
 }
 .messages {
     display: flex;
@@ -53,7 +57,7 @@ p {
 
 @media (max-width: 440px) {
     button {
-        margin-top: 25px;
+        margin-top: 5px;
     }
     #up, #down { margin-left: 100%; margin-right: 100%; }
 }

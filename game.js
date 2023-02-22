@@ -8,6 +8,7 @@ const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
 const pResult = document.querySelector('#result');
+const btnReset = document.querySelector('#reset_btn');
 
 let canvasSize;
 let elementsSize;
@@ -30,18 +31,26 @@ let enemiesPosition = [];
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
+function fixNumber(n) {
+    return Number(n.toFixed(0));
+}
+
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.8;
+        canvasSize = window.innerWidth * 0.7;
     } else {
-        canvasSize = window.innerHeight * 0.8;
+        canvasSize = window.innerHeight * 0.7;
     }
+
+    canvasSize = Number(canvasSize.toFixed(0));
 
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
-    elementsSize = (canvasSize / 10) - 1;
+    elementsSize = fixNumber((canvasSize / 10) - 1);
 
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
     startGame();
 }
 
@@ -83,7 +92,7 @@ function startGame() {
                 if (!playerPosition.x && !playerPosition.y) {
                     playerPosition.x = positionX;
                     playerPosition.y = positionY;
-                    console.log({playerPosition});
+                    //console.log({playerPosition});
                 }
             } else if (col == 'I') {
                 goalPosition.x = positionX;
@@ -182,6 +191,7 @@ btnUp.addEventListener('click', moveUp);
 btnDown.addEventListener('click', moveDown);
 btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
+btnReset.addEventListener('click', resetGame);
 
 function moveByKeys(event) {
     if (event.key == 'ArrowUp') {
@@ -234,4 +244,8 @@ function moveRight() {
         playerPosition.x += elementsSize;
         startGame();
     }
+}
+
+function resetGame() {
+    location.reload();
 }
