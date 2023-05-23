@@ -1,5 +1,8 @@
 # js-videogame
-Práctica de JavaScript realizando un pequeño videjuego.  
-*Curso realizado: Taller práctico de JavaScript en Platzi.*  
-[Entrar por aquí para probar el juego](https://prilizabeth.github.io/js-videogame/)
+### Práctica de JavaScript realizando un pequeño videjuego. 
 
+*Curso realizado: Taller práctico de JavaScript en Platzi.*
+
+[Enlace al juego](https://prilizabeth.github.io/js-videogame/)
+
+[![js-videogame2.png](https://i.postimg.cc/LscV5xtf/js-videogame2.png)](https://postimg.cc/JyQXdcd4)
